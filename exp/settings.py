@@ -191,6 +191,16 @@ def get_dataset(dataset, data_dir, mode, seed=0, same_cost=False, cat_map=False,
             same_cost=same_cost,
             cat_map=cat_map,
         )
+    elif dataset == "lending_club":
+        data = loaders.LendingClubDataset(
+            data_dir,
+            mode=mode,
+            balanced=True,
+            
+            seed=seed,
+            same_cost=same_cost,
+            cat_map=cat_map,
+        )
     elif dataset == "syn":
         data = loaders.Synthetic(
             data_dir, mode=mode, seed=seed, same_cost=same_cost, cat_map=cat_map, noise=noise, w_max=0.0

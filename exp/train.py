@@ -29,6 +29,7 @@ default_model_dict = {
     "ieeecis": TabNet_ieeecis,
     "twitter_bot": TabNet,
     "syn": TabNet_syn,
+    "lending_club": TabNet_ieeecis,
 }
 model_dict = {
     "tabnet_homecredit": TabNet_homecredit,
@@ -46,7 +47,7 @@ def get_args():
     parser.add_argument(
         "--dataset",
         default="ieeecis",
-        choices=["ieeecis", "twitter_bot", "home_credit", "syn", "credit_sim"],
+        choices=["ieeecis", "twitter_bot", "home_credit", "syn", "credit_sim", "lending_club"],
         type=str,
     )
     parser.add_argument("--epochs", default=50, type=int)

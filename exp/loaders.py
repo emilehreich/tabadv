@@ -1175,7 +1175,8 @@ class LendingClubDataset(Dataset):
     def __init__(self, path, mode="train", balanced=True, seed=42, cat_map=False, same_cost=False):
         self.mode = mode
         self.same_cost = same_cost
-        df = pd.read_csv(path)
+
+        df = pd.read_csv("../data/lending_club/lending_club_loan_two.csv")
 
         numerical_columns = [
             "loan_amnt",
@@ -1193,19 +1194,21 @@ class LendingClubDataset(Dataset):
         df['zip_code'] = df.address.apply(lambda x: x[-5:])
 
         weights = {
-            "loan_amnt": 0.1,
-            "annual_inc": 50,
-            "dti": 100,
-            "int_rate": 0.1,
-            "pub_rec_bankruptcies": 1,
-            "revol_util": 100,
-            "revol_bal": 100,
-            "zip_code": 0.1
+            "loan_amnt": 0,
+            "annual_inc": 100,
+            "dti": 500,
+            "int_rate": 3750,
+            "pub_rec_bankruptcies": 500,
+            "revol_util": 500,
+            "revol_bal": 500,
+            "zip_code": 1
         }
 
         df = df[categorical_columns + numerical_columns + ["loan_status"]]
 
         df['loan_status'] = df.loan_status.map({'Fully Paid':1, 'Charged Off':0})
+        self.cost_orig = df["loan_amnt"]
+        self.gain_col = "loan_amnt"
 
         self.cat_map = get_cat_map(df, categorical_columns, sep='_')
 
