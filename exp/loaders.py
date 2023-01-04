@@ -1260,7 +1260,7 @@ class LendingClubDataset(Dataset):
             cost = torch.Tensor([1.0])
         else:
             cost = torch.Tensor([self.cost_orig[idx]])
-        return (inpt, oupt, cost)
+        return (inpt, oupt, cost, 0)
     
     
 

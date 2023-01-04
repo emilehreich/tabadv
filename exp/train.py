@@ -29,7 +29,7 @@ default_model_dict = {
     "ieeecis": TabNet_ieeecis,
     "twitter_bot": TabNet,
     "syn": TabNet_syn,
-    "lending_club": TabNet_ieeecis,
+    "lending_club": TabNet,
 }
 model_dict = {
     "tabnet_homecredit": TabNet_homecredit,
@@ -225,7 +225,7 @@ def train(
 
     else:
         model.train()
-        delta = torch.randn(x.shape).cuda() * 0.05#torch.zeros_like(x) 
+        delta = torch.zeros_like(x) 
         output = model(x + delta)
         #cl_output = output
         adv_output = output
@@ -254,9 +254,9 @@ def train(
     model.eval()
     cl_output = model(x)
 
-    print(model.emb_layers[1].weight)
-    f0 = cat_map["cat1"]
-    print(x[0, f0[0]:f0[1]+1], delta[0, f0[0]:f0[1]+1], y[0], torch.sigmoid(cl_output).detach()[0],torch.sigmoid(adv_output).detach()[0])
+    # print(model.emb_layers[1].weight)
+    # f0 = cat_map["cat1"]
+    # print(x[0, f0[0]:f0[1]+1], delta[0, f0[0]:f0[1]+1], y[0], torch.sigmoid(cl_output).detach()[0],torch.sigmoid(adv_output).detach()[0])
 
 
     #if pgd_steps != 0:
@@ -368,7 +368,7 @@ def train_model(
                     cat_map=train_loader.dataset.cat_map,
                     utility_type=utility_type,
                     eps_part=eps_part,
-                    eps_max=train_loader.dataset.max_eps,
+                    eps_max=10000,
                     dist=dist,
                     iter_lim=iter_lim,
                     opte=opte,
@@ -404,7 +404,7 @@ def train_model(
             cat_map=train_loader.dataset.cat_map,
             utility_type=utility_type,
             utility_max=utility_max,
-            eps_max=train_loader.dataset.max_eps,
+            eps_max=10000,
             dist=dist,
             iter_lim=iter_lim
         )
@@ -427,16 +427,16 @@ def train_model(
         wandb.log({"Test Clean Accuracy": test_acc,
                    "Test Accuracy": test_rob_acc})
 
-        embs1 = net.emb_layers[1].weight
-        print(embs1.shape)
-        costs1 = train_loader.dataset.costs["cat1"]
-        d = np.zeros_like(costs1)
-        dim1 = len(costs1)
-        for i in range(dim1):
-            for j in range(dim1):
-                d[i, j] = np.linalg.norm(embs1[:, i].detach().cpu().numpy() - embs1[:, j].detach().cpu().numpy())
+        # embs1 = net.emb_layers[1].weight
+        # print(embs1.shape)
+        # costs1 = train_loader.dataset.costs["cat1"]
+        # d = np.zeros_like(costs1)
+        # dim1 = len(costs1)
+        # for i in range(dim1):
+        #     for j in range(dim1):
+        #         d[i, j] = np.linalg.norm(embs1[:, i].detach().cpu().numpy() - embs1[:, j].detach().cpu().numpy())
         
-        print(costs1, d)
+        # print(costs1, d)
         #wandb.log({'emb_dists': wandb.plots.HeatMap(list(range(dim1)), list(range(dim1)), d, show_text=False)})
         #wandb.log({'costs': wandb.plots.HeatMap(list(range(dim1)), list(range(dim1)), costs1, show_text=False)})
 
@@ -450,13 +450,13 @@ def main():
     args = get_args()
     torch.manual_seed(args.seed)
     np.random.seed(args.seed)
-    if torch.cuda.is_available():
-        device = torch.device("cuda:0")
-        print("Cuda Device Available")
-        print("Name of the Cuda Device: ", torch.cuda.get_device_name())
-        print("GPU Computational Capablity: ", torch.cuda.get_device_capability())
-    else:
-        device = torch.device("cpu")
+    # if torch.cuda.is_available():
+    #     device = torch.device("cuda:0")
+    #     print("Cuda Device Available")
+    #     print("Name of the Cuda Device: ", torch.cuda.get_device_name())
+    #     print("GPU Computational Capablity: ", torch.cuda.get_device_capability())
+    # else:
+    device = torch.device("cpu")
 
     folder_path = args.data_dir
 
@@ -469,8 +469,8 @@ def main():
     train_loader = DataLoader(
         dataset=data_train, batch_size=args.batch_size, shuffle=True, num_workers=8
     )
-    costs0 = train_loader.dataset.costs["cat0"]
-    print(costs0)
+    # costs0 = train_loader.dataset.costs["cat0"]
+    # print(costs0)
     test_loader = DataLoader(
         dataset=data_test, batch_size=args.batch_size, shuffle=False, num_workers=8
     )
@@ -493,7 +493,7 @@ def main():
         project="tab-embs",
         tags=["paper"],
         config=config,
-        entity="kireev"
+        entity="emilehreich"
     )
     start_time = time.time()
     model = train_model(

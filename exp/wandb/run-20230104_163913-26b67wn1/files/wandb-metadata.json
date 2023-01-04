@@ -1,0 +1,92 @@
+{
+    "os": "Linux-5.19.0-26-generic-x86_64-with-glibc2.36",
+    "python": "3.10.7",
+    "heartbeatAt": "2023-01-04T15:39:15.289182",
+    "startedAt": "2023-01-04T15:39:13.828509",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--dataset",
+        "lending_club",
+        "--eps",
+        "0.0",
+        "--model_path",
+        "../models/clean.pt",
+        "--utility-type",
+        "constant",
+        "--attack_iters",
+        "0",
+        "--batch_size",
+        "2048",
+        "--epochs",
+        "400"
+    ],
+    "state": "running",
+    "program": "/home/emile/tabadv_backup/tabadv/exp/train.py",
+    "codePath": "exp/train.py",
+    "git": {
+        "remote": "git@github.com:emilehreich/tabadv.git",
+        "commit": "98185a62bc957bf86cb23ab0f65f34472ffd5723"
+    },
+    "email": "emile.jd.hreich@gmail.com",
+    "root": "/home/emile/tabadv_backup/tabadv",
+    "host": "EHTP",
+    "username": "emile",
+    "executable": "/usr/bin/python3",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 1.511,
+        "min": 400.0,
+        "max": 4600.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1.499,
+            "min": 400.0,
+            "max": 4600.0
+        },
+        {
+            "current": 1.499,
+            "min": 400.0,
+            "max": 4600.0
+        },
+        {
+            "current": 1.5,
+            "min": 400.0,
+            "max": 4600.0
+        },
+        {
+            "current": 1.499,
+            "min": 400.0,
+            "max": 4600.0
+        },
+        {
+            "current": 1.5,
+            "min": 400.0,
+            "max": 4600.0
+        },
+        {
+            "current": 1.5,
+            "min": 400.0,
+            "max": 4600.0
+        },
+        {
+            "current": 1.5,
+            "min": 400.0,
+            "max": 4600.0
+        },
+        {
+            "current": 1.5,
+            "min": 400.0,
+            "max": 4600.0
+        }
+    ],
+    "disk": {
+        "total": 100.9723892211914,
+        "used": 88.32026290893555
+    },
+    "memory": {
+        "total": 15.318717956542969
+    }
+}

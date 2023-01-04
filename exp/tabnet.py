@@ -17,7 +17,7 @@ class Sparsemax(nn.Module):
         super(Sparsemax, self).__init__()
         self.dim = -1 if dim is None else dim
 
-    def forward(self, input, device=torch.device("cuda")):
+    def forward(self, input, device=torch.device("cpu")):
         input = input.transpose(0, self.dim)
         original_size = input.size()
         input = input.reshape(input.size(0), -1)
@@ -89,7 +89,7 @@ class GLU(nn.Module):
 
 class FeatureTransformer(nn.Module):
     def __init__(
-        self, inp_dim, out_dim, shared, n_ind, vbs=128, device=torch.device("cuda")
+        self, inp_dim, out_dim, shared, n_ind, vbs=128, device=torch.device("cpu")
     ):
         super().__init__()
         first = True
@@ -121,7 +121,7 @@ class FeatureTransformer(nn.Module):
 
 
 class AttentionTransformer(nn.Module):
-    def __init__(self, inp_dim, out_dim, relax, vbs=128, device=torch.device("cuda")):
+    def __init__(self, inp_dim, out_dim, relax, vbs=128, device=torch.device("cpu")):
         super().__init__()
         self.fc = nn.Linear(inp_dim, out_dim)
         self.bn = GBN(out_dim, vbs=vbs)

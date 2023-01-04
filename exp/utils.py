@@ -499,10 +499,10 @@ def attack_pgd_training(
     cat_map=None,
     iter_lim=10
 ):
-    noise = torch.zeros_like(X).cuda()
-    delta = torch.randn(X.shape).cuda() * 0.05 # to avoid catastrophic overfitting
+    noise = torch.zeros_like(X)
+    delta = torch.randn(X.shape) * 0.05 # to avoid catastrophic overfitting
     sigma = 0.000001
-    grad_norm = torch.zeros_like(X).cuda()
+    grad_norm = torch.zeros_like(X)
     delta.requires_grad = True
     criterion = torch.nn.BCEWithLogitsLoss()
 
