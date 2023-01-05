@@ -1170,6 +1170,15 @@ class HomeCreditDataset(Dataset):
         # (oupt.shape, oupt)
         return (inpt, oupt, cost)
 
+# ==================================================================================================
+# Emile's code
+
+def fill_mort_acc(total_acc, mort_acc, avg):
+    if np.isnan(mort_acc):
+        return avg[total_acc].round()
+    else:
+        return mort_acc
+
 class LendingClubDataset(Dataset):
 
     def __init__(self, path, mode="train", balanced=True, seed=42, cat_map=False, same_cost=False):
@@ -1177,6 +1186,27 @@ class LendingClubDataset(Dataset):
         self.same_cost = same_cost
 
         df = pd.read_csv("../data/lending_club/lending_club_loan_two.csv")
+
+        # -----------------------------------------------------------
+        # data preprocessing
+
+        df.emp_title.nunique()
+        df.drop('emp_title', axis=1, inplace=True)
+        df.emp_length.unique()
+        df.drop('emp_length', axis=1, inplace=True)
+        df.drop('title', axis=1, inplace=True)
+        df.drop_duplicates()
+        total_acc_avg = df.groupby(by='total_acc').mean().mort_acc
+
+        df['mort_acc'] = df.apply(lambda x: fill_mort_acc(x['total_acc'], x['mort_acc'], total_acc_avg), axis=1)
+
+        # for column in data.columns:
+        #     if df[column].isna().sum() != 0:
+        #         missing = data[column].isna().sum()
+        #         portion = (missing / data.shape[0]) * 100
+        #         print(f"'{column}': number of missing values '{missing}' ==> '{portion:.3f}%'")
+
+        df.dropna(inplace=True)
 
         numerical_columns = [
             "loan_amnt",

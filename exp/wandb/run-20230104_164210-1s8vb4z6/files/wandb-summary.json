@@ -1,1 +1,1 @@
-{"Train Accuracy": 0.0, "Train Clean Accuracy": 0.0, "_timestamp": 1672847962.499361, "_runtime": 1032.0512261390686, "_step": 609, "Test Clean Accuracy": 0.0, "Test Accuracy": 0.0}
+{"Train Accuracy": 0.0, "Train Clean Accuracy": 0.0, "_timestamp": 1672848043.5078773, "_runtime": 1113.059742450714, "_step": 657, "Test Clean Accuracy": 0.0, "Test Accuracy": 0.0, "_wandb": {"runtime": 1112}}
